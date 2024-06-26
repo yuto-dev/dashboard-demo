@@ -70,26 +70,46 @@
       console.log('Labels:', labels);  // Log the labels
       console.log('Values:', values);  // Log the values (after conversion)
       console.log('Percentages:', percentages);  // Log the percentages
-
+      console.log('Values 1', values[0])
       if (labels.length === 0 || values.length === 0) {
         console.error('No data to display in the chart.');
         return;
       }
+      let chartData = {
+        labels: ['type of vehicles'],
+        datasets: [
+          {
+            label: 'Sepeda Motor',
+            backgroundColor: 'rgba(78, 136, 250, 1)',
+            data: values[0],
+            datalabels: {
+              color: 'white',
+            }
+          },
+          {
+            label: 'Mobil Penumpang',
+            backgroundColor: 'rgba(241, 156, 23, 1)',
+            data: values[1],
+            datalabels: {
+              color: 'royalblue',
+            }
+          },
+           {
+            label: 'Truk',
+            backgroundColor: 'rgba(241, 156, 23, 1)',
+            data: values[1],
+            datalabels: {
+              color: 'royalblue',
+            }
+          },
+        ]
+      };
 
       // Create bar chart
       const barCtx = document.getElementById('myBarChart').getContext('2d');
       new Chart(barCtx, {
         type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Number of Kendaraan Types',
-            data: values,
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1
-          }]
-        },
+        data: chartData,
         options: {
           scales: {
             y: {
