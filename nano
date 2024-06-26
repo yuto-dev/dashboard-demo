@@ -1,0 +1,6 @@
+INSERT INTO students
+       ( first_name, last_name, score)
+       VALUES
+       ( 'Ben', 'Joe', 80),
+       ( 'Carson', 'Smith', 85),
+       ( 'Donald', 'James', 83);

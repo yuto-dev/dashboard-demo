@@ -1,0 +1,10 @@
+tanggal bayar (3,4)
+status bayar (5)
+kategori pajak (7,8,9)
+metode pembayaran (10)
+tipe (12)
+
+tahun registrasi
+
+tanggal kadaluwarsa stnk
+status pembayaran (bool)

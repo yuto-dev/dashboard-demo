@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Optional: Add custom CSS to style the chart canvas */
+    #myChart {
+      width: 50%; /* Adjust the width as needed */
+      height: 100px; /* Adjust the height as needed */
+      margin: 0 auto; /* Center the chart horizontally */
+    }
+  </style>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+  <script>
+    async function fetchData() {
+      const response = await fetch('http://localhost:3000/data');
+      const data = await response.json();
+      return data;
+    }
+
+    async function createChart() {
+      const data = await fetchData();
+      const labels = data.map(item => item.first_name + ' ' + item.last_name);
+      const values = data.map(item => item.score);
+
+      const ctx = document.getElementById('myChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Scores',
+            data: values,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100
+            }
+          }
+        }
+      });
+    }
+
+    createChart();
+  </script>
+</body>
+</html>

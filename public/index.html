@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .main-container {
+      display: flex;
+      flex-direction: row;
+      height: 95vh; /* Slightly smaller to accommodate padding */
+      width: 90vw;  /* Slightly smaller to accommodate padding */
+      max-width: 1920px; /* Maximum width to ensure compatibility */
+      padding: 20px; /* Add padding to the container */
+      box-sizing: border-box; /* Include padding in height and width */
+    }
+    .container-a {
+      width: 66%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-right: 50px; /* Add padding between charts */
+    }
+    .container-b {
+      width: 34%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      padding-left: 50px; /* Add padding between charts */
+    }
+    .chart-container {
+      width: 100%;
+      aspect-ratio: 2 / 1; /* Maintain aspect ratio */
+      margin: -20px 0; /* Add padding between charts */
+    }
+    .chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .pie-chart-container {
+      height: calc((95vh - 40px) / 2); /* Adjust height to fit both pie charts within the screen */
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <div class="container-a">
+      <div class="chart-container bar-chart-container">
+        <canvas id="myBarChart"></canvas>
+      </div>
+    </div>
+    <div class="container-b">
+      <div class="chart-container pie-chart-container">
+        <canvas id="myPieChart1"></canvas>
+      </div>
+      <div class="chart-container pie-chart-container">
+        <canvas id="myPieChart2"></canvas>
+      </div>
+      <!-- Add more pie charts here if needed -->
+    </div>
+  </div>
+  <script>
+    async function fetchData() {
+      const response = await fetch('http://localhost:3000/kendaraan-data');
+      const data = await response.json();
+      console.log('Fetched Data:', data);  // Log the fetched data
+      return data;
+    }
+
+    function transformData(data) {
+      // Sort data by TipeKendaraan
+      const sortedData = data.sort((a, b) => {
+        const order = { 'A': 1, 'B': 2, 'C': 3 };
+        return order[a.tipekendaraan] - order[b.tipekendaraan];
+      });
+
+      // Map TipeKendaraan to the respective labels
+      const labelMap = {
+        'A': 'Sepeda Motor',
+        'B': 'Mobil Penumpang',
+        'C': 'Truk'
+      };
+
+      const labels = sortedData.map(item => labelMap[item.tipekendaraan]);
+      const values = sortedData.map(item => Number(item.count));
+
+      return { labels, values };
+    }
+
+    function calculatePercentages(values) {
+      const total = values.reduce((acc, value) => acc + value, 0);
+      return values.map(value => (value / total * 100).toFixed(2));
+    }
+
+    async function createCharts() {
+      const data = await fetchData();
+      const { labels, values } = transformData(data);
+      const percentages = calculatePercentages(values);
+
+      console.log('Labels:', labels);  // Log the labels
+      console.log('Values:', values);  // Log the values (after conversion)
+      console.log('Percentages:', percentages);  // Log the percentages
+
+      if (labels.length === 0 || values.length === 0) {
+        console.error('No data to display in the chart.');
+        return;
+      }
+
+      // Create bar chart
+      const barCtx = document.getElementById('myBarChart').getContext('2d');
+      new Chart(barCtx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Number of Kendaraan Types',
+            data: values,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+      // Create pie chart(s)
+      const pieChartIds = ['myPieChart1', 'myPieChart2']; // Add more IDs as needed
+      pieChartIds.forEach((id, index) => {
+        const pieCtx = document.getElementById(id).getContext('2d');
+        new Chart(pieCtx, {
+          type: 'pie',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Distribution of Kendaraan Types',
+              data: percentages,
+              backgroundColor: [
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(255, 206, 86, 0.2)'
+              ],
+              borderColor: [
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 206, 86, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            plugins: {
+              legend: {
+                position: 'right', // Move legend to the right of the pie chart
+                labels: {
+                  boxWidth: 20, // Box width for the legend
+                  padding: 10 // Padding between legend items
+                }
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(tooltipItem) {
+                    return `${tooltipItem.label}: ${tooltipItem.raw}%`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      });
+    }
+
+    createCharts();
+  </script>
+</body>
+</html>
