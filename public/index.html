@@ -5,69 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .main-container {
-      display: flex;
-      flex-direction: row;
-      height: 95vh; /* Slightly smaller to accommodate padding */
-      width: 90vw;  /* Slightly smaller to accommodate padding */
-      max-width: 1920px; /* Maximum width to ensure compatibility */
-      padding: 20px; /* Add padding to the container */
-      box-sizing: border-box; /* Include padding in height and width */
-    }
-    .container-a {
-      width: 66%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding-right: 50px; /* Add padding between charts */
-    }
-    .container-b {
-      width: 34%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-      padding-left: 50px; /* Add padding between charts */
-    }
-    .chart-container {
-      width: 100%;
-      aspect-ratio: 2 / 1; /* Maintain aspect ratio */
-      margin: -20px 0; /* Add padding between charts */
-    }
-    .chart-container canvas {
-      width: 100% !important;
-      height: 100% !important;
-    }
-    .pie-chart-container {
-      height: calc((95vh - 40px) / 2); /* Adjust height to fit both pie charts within the screen */
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.8/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-  <div class="main-container">
-    <div class="container-a">
-      <div class="chart-container bar-chart-container">
-        <canvas id="myBarChart"></canvas>
-      </div>
+  <div class="main-container grid grid-cols-3 gap-8">
+    <!-- Card 1: Bar Chart -->
+    <div class="col-span-2 card p-8 bg-white shadow-xl rounded-lg">
+      <canvas id="myBarChart"></canvas>
     </div>
-    <div class="container-b">
+
+    <!-- Card 2: Pie Charts -->
+    <div class="col-span-1 card p-8 bg-white shadow-xl rounded-lg flex flex-col space-y-8">
+      <!-- Pie Chart 1 -->
       <div class="chart-container pie-chart-container">
         <canvas id="myPieChart1"></canvas>
       </div>
+      <!-- Pie Chart 2 -->
       <div class="chart-container pie-chart-container">
         <canvas id="myPieChart2"></canvas>
       </div>
-      <!-- Add more pie charts here if needed -->
     </div>
   </div>
+
   <script>
     async function fetchData() {
       const response = await fetch('http://localhost:3000/kendaraan-data');
@@ -138,8 +99,8 @@
         }
       });
 
-      // Create pie chart(s)
-      const pieChartIds = ['myPieChart1', 'myPieChart2']; // Add more IDs as needed
+      // Create pie charts
+      const pieChartIds = ['myPieChart1', 'myPieChart2'];
       pieChartIds.forEach((id, index) => {
         const pieCtx = document.getElementById(id).getContext('2d');
         new Chart(pieCtx, {
@@ -165,10 +126,10 @@
           options: {
             plugins: {
               legend: {
-                position: 'right', // Move legend to the right of the pie chart
+                position: 'right',
                 labels: {
-                  boxWidth: 20, // Box width for the legend
-                  padding: 10 // Padding between legend items
+                  boxWidth: 20,
+                  padding: 10
                 }
               },
               tooltip: {
