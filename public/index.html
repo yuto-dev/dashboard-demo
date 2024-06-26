@@ -13,11 +13,13 @@
   <div class="main-container grid grid-cols-3 gap-8">
     <!-- Card 1: Bar Chart -->
     <div class="col-span-2 card p-8 bg-white shadow-xl rounded-lg">
+      <h2 class="text-2xl font-bold mb-4 text-center text-black">Jumlah Kendaraan Bermotor</h2>
       <canvas id="myBarChart"></canvas>
     </div>
 
     <!-- Card 2: Pie Charts -->
     <div class="col-span-1 card p-8 bg-white shadow-xl rounded-lg flex flex-col space-y-8">
+      <h2 class="text-2xl font-bold mb-4 text-center text-black pie-charts-heading">Persentase Distribusi</h2>
       <!-- Pie Chart 1 -->
       <div class="chart-container pie-chart-container">
         <canvas id="myPieChart1"></canvas>
@@ -40,7 +42,7 @@
     function transformData(data) {
       // Sort data by TipeKendaraan
       const sortedData = data.sort((a, b) => {
-        const order = { 'A': 1, 'B': 2, 'C': 3 };
+        const order = { 'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6,};
         return order[a.tipekendaraan] - order[b.tipekendaraan];
       });
 
@@ -48,7 +50,10 @@
       const labelMap = {
         'A': 'Sepeda Motor',
         'B': 'Mobil Penumpang',
-        'C': 'Truk'
+        'C': 'Truk',
+        'D': 'Kendaraan Roda Tiga',
+        'E': 'EV',
+        'F': 'Kendaraan Diatas Air'
       };
 
       const labels = sortedData.map(item => labelMap[item.tipekendaraan]);
@@ -70,44 +75,42 @@
       console.log('Labels:', labels);  // Log the labels
       console.log('Values:', values);  // Log the values (after conversion)
       console.log('Percentages:', percentages);  // Log the percentages
-      console.log('Values 1', values[0])
+
       if (labels.length === 0 || values.length === 0) {
         console.error('No data to display in the chart.');
         return;
       }
-      let chartData = {
-        labels: ['type of vehicles'],
-        datasets: [
-          {
-            label: 'Sepeda Motor',
-            backgroundColor: 'rgba(78, 136, 250, 1)',
-            data: values[0],
-            datalabels: {
-              color: 'white',
-            }
-          },
-          {
-            label: 'Mobil Penumpang',
-            backgroundColor: 'rgba(241, 156, 23, 1)',
-            data: values[1],
-            datalabels: {
-              color: 'royalblue',
-            }
-          },
-           {
-            label: 'Truk',
-            backgroundColor: 'rgba(241, 156, 23, 1)',
-            data: values[1],
-            datalabels: {
-              color: 'royalblue',
-            }
-          },
-        ]
-      };
 
       // Create bar chart
+
+      const chartData = {
+          labels: labels,
+          datasets: [{
+            label: 'My First Dataset',
+            data: values,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(255, 205, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)'
+            ],
+            borderWidth: 1
+          }]
+        };
+
       const barCtx = document.getElementById('myBarChart').getContext('2d');
       new Chart(barCtx, {
+
         type: 'bar',
         data: chartData,
         options: {
@@ -131,14 +134,20 @@
               label: 'Distribution of Kendaraan Types',
               data: percentages,
               backgroundColor: [
-                'rgba(75, 192, 192, 0.2)',
                 'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 206, 86, 0.2)'
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 205, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(153, 102, 255, 0.2)'
               ],
               borderColor: [
-                'rgba(75, 192, 192, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(255, 206, 86, 1)'
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)'
               ],
               borderWidth: 1
             }]

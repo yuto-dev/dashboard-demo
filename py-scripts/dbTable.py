@@ -16,7 +16,7 @@ cur = conn.cursor()
 
 # Create table query
 create_table_query = '''
-CREATE TABLE IF NOT EXISTS kendaraan (
+CREATE TABLE IF NOT EXISTS kendaraanTable (
     KendaraanID SERIAL PRIMARY KEY,
     NamaPemilik VARCHAR(100),
     TipeKendaraan CHAR(1),

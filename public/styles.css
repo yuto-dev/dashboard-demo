@@ -40,5 +40,10 @@ body, html {
   }
   .pie-chart-container {
     height: calc((95vh - 40px) / 2); /* Adjust height to fit both pie charts within the screen */
+    margin-bottom: -100px;
+  }
+
+  .pie-charts-heading {
+    margin-bottom: -200px; /* Adjust as needed */
   }
   

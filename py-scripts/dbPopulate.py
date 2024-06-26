@@ -40,7 +40,7 @@ for _ in range(num_records):
     MetodePembayaran = random.choices([True, False], weights=[0.55, 0.45], k=1)[0]
 
     insert_query = '''
-    INSERT INTO kendaraan (NamaPemilik, TipeKendaraan, KelasPajak, TanggalRegistrasi, PembayaranTerakhir, MetodePembayaran)
+    INSERT INTO kendaraanTable (NamaPemilik, TipeKendaraan, KelasPajak, TanggalRegistrasi, PembayaranTerakhir, MetodePembayaran)
     VALUES (%s, %s, %s, %s, %s, %s)
     '''
     cur.execute(insert_query, (NamaPemilik, TipeKendaraan, KelasPajak, TanggalRegistrasi, PembayaranTerakhir, MetodePembayaran))

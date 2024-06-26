@@ -23,7 +23,7 @@ app.get('/kendaraan-data', async (req, res) => {
   try {
     const result = await pool.query(`
       SELECT TipeKendaraan, COUNT(*) as count
-      FROM kendaraan
+      FROM kendaraanTable
       GROUP BY TipeKendaraan
     `);
     res.json(result.rows);
