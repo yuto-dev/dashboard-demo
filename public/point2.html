@@ -144,55 +144,57 @@
       });
 
       // Create pie charts
-      const pieChartIds = ['myPieChart1', 'myPieChart2'];
-      pieChartIds.forEach((id, index) => {
-        const pieCtx = document.getElementById(id).getContext('2d');
-        new Chart(pieCtx, {
-          type: 'pie',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'Distribution of Kendaraan Types',
-              data: percentages,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-              ],
-              borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(54, 162, 235)',
-                'rgb(153, 102, 255)'
-              ],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            plugins: {
-              legend: {
-                position: 'right',
-                labels: {
-                  boxWidth: 20,
-                  padding: 10
-                }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(tooltipItem) {
-                    return `${tooltipItem.label}: ${tooltipItem.raw}%`;
-                  }
+      // Create pie charts
+      // Configuration for Pie Chart 1
+      const pieConfig1 = {
+        type: 'pie',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Distribution of Kendaraan Types',
+            data: percentages,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(255, 159, 64, 0.2)',
+              'rgba(255, 205, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(153, 102, 255, 0.2)'
+            ],
+            borderColor: [
+              'rgb(255, 99, 132)',
+              'rgb(255, 159, 64)',
+              'rgb(255, 205, 86)',
+              'rgb(75, 192, 192)',
+              'rgb(54, 162, 235)',
+              'rgb(153, 102, 255)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                boxWidth: 20,
+                padding: 10
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(tooltipItem) {
+                  return `${tooltipItem.label}: ${tooltipItem.raw}%`;
                 }
               }
             }
           }
-        });
-      });
+        }
+      };
+      // Initialize Pie Chart 1
+      const pieCtx1 = document.getElementById('myPieChart1').getContext('2d');
+      new Chart(pieCtx1, pieConfig1);
+
     }
 
     createCharts();

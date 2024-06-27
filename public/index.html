@@ -6,46 +6,62 @@
   <title>Main Menu</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.8/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .button-container img {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .button-container span {
+      text-align: center;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center h-screen">
   <div class="card bg-white shadow-xl rounded-lg p-8 flex flex-col items-center space-y-8">
     <h1 class="text-3xl font-bold mb-4 text-center text-black">Main Menu</h1>
     <div class="flex space-x-8">
       <!-- Button 1 -->
-      <div class="flex flex-col items-center space-y-2">
+      <div class="button-container">
         <a href="point2.html" class="block w-24 h-24">
           <button class="btn btn-primary w-full h-full p-0">
             <img src="assets/car.jpeg" alt="Image 1" class="w-full h-full object-cover rounded-lg">
           </button>
         </a>
-        <span class="text-center text-lg">Destination 1</span>
+        <span class="text-center text-lg mt-2 text-black">PKB</span>
       </div>
       <!-- Button 2 -->
-      <div class="flex flex-col items-center space-y-2">
+      <div class="button-container">
         <a href="null.html" class="block w-24 h-24">
           <button class="btn btn-secondary w-full h-full p-0">
             <img src="assets/bike.jpeg" alt="Image 2" class="w-full h-full object-cover rounded-lg">
           </button>
         </a>
-        <span class="text-center text-lg">Destination 2</span>
+        <span class="text-center text-lg mt-2 text-black">BBNKB</span>
       </div>
       <!-- Button 3 -->
-      <div class="flex flex-col items-center space-y-2">
+      <div class="button-container">
         <a href="null.html" class="block w-24 h-24">
           <button class="btn btn-accent w-full h-full p-0">
             <img src="assets/hihiirokane.jpeg" alt="Image 3" class="w-full h-full object-cover rounded-lg">
           </button>
         </a>
-        <span class="text-center text-lg">Destination 3</span>
+        <span class="text-center text-lg mt-2 text-black">MBLB</span>
       </div>
       <!-- Button 4 -->
-      <div class="flex flex-col items-center space-y-2">
+      <div class="button-container">
         <a href="null.html" class="block w-24 h-24">
           <button class="btn btn-info w-full h-full p-0">
             <img src="assets/chart.jpeg" alt="Image 4" class="w-full h-full object-cover rounded-lg">
           </button>
         </a>
-        <span class="text-center text-lg">Destination 4</span>
+        <span class="text-center text-lg mt-2 text-black">Analisa Data</span>
       </div>
     </div>
   </div>
