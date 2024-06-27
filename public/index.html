@@ -3,178 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Main Menu</title>
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.8/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="styles.css" rel="stylesheet">
 </head>
-<body>
-  <div class="main-container grid grid-cols-3 gap-8">
-    <!-- Card 1: Bar Chart -->
-    <div class="col-span-2 card p-8 bg-white shadow-xl rounded-lg">
-      <h2 class="text-2xl font-bold mb-4 text-center text-black">Jumlah Kendaraan Bermotor</h2>
-      <canvas id="myBarChart"></canvas>
-    </div>
-
-    <!-- Card 2: Pie Charts -->
-    <div class="col-span-1 card p-8 bg-white shadow-xl rounded-lg flex flex-col space-y-8">
-      <h2 class="text-2xl font-bold mb-4 text-center text-black pie-charts-heading">Persentase Distribusi</h2>
-      <!-- Pie Chart 1 -->
-      <div class="chart-container pie-chart-container">
-        <canvas id="myPieChart1"></canvas>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="card bg-white shadow-xl rounded-lg p-8 flex flex-col items-center space-y-8">
+    <h1 class="text-3xl font-bold mb-4 text-center text-black">Main Menu</h1>
+    <div class="flex space-x-8">
+      <!-- Button 1 -->
+      <div class="flex flex-col items-center space-y-2">
+        <a href="point2.html" class="block w-24 h-24">
+          <button class="btn btn-primary w-full h-full p-0">
+            <img src="assets/car.jpeg" alt="Image 1" class="w-full h-full object-cover rounded-lg">
+          </button>
+        </a>
+        <span class="text-center text-lg">Destination 1</span>
       </div>
-      <!-- Pie Chart 2 -->
-      <div class="chart-container pie-chart-container">
-        <canvas id="myPieChart2"></canvas>
+      <!-- Button 2 -->
+      <div class="flex flex-col items-center space-y-2">
+        <a href="null.html" class="block w-24 h-24">
+          <button class="btn btn-secondary w-full h-full p-0">
+            <img src="assets/bike.jpeg" alt="Image 2" class="w-full h-full object-cover rounded-lg">
+          </button>
+        </a>
+        <span class="text-center text-lg">Destination 2</span>
+      </div>
+      <!-- Button 3 -->
+      <div class="flex flex-col items-center space-y-2">
+        <a href="null.html" class="block w-24 h-24">
+          <button class="btn btn-accent w-full h-full p-0">
+            <img src="assets/hihiirokane.jpeg" alt="Image 3" class="w-full h-full object-cover rounded-lg">
+          </button>
+        </a>
+        <span class="text-center text-lg">Destination 3</span>
+      </div>
+      <!-- Button 4 -->
+      <div class="flex flex-col items-center space-y-2">
+        <a href="null.html" class="block w-24 h-24">
+          <button class="btn btn-info w-full h-full p-0">
+            <img src="assets/chart.jpeg" alt="Image 4" class="w-full h-full object-cover rounded-lg">
+          </button>
+        </a>
+        <span class="text-center text-lg">Destination 4</span>
       </div>
     </div>
   </div>
-
-  <script>
-    async function fetchData() {
-      const response = await fetch('http://localhost:3000/kendaraan-data');
-      const data = await response.json();
-      console.log('Fetched Data:', data);  // Log the fetched data
-      return data;
-    }
-
-    function transformData(data) {
-      // Sort data by TipeKendaraan
-      const sortedData = data.sort((a, b) => {
-        const order = { 'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6,};
-        return order[a.tipekendaraan] - order[b.tipekendaraan];
-      });
-
-      // Map TipeKendaraan to the respective labels
-      const labelMap = {
-        'A': 'Sepeda Motor',
-        'B': 'Mobil Penumpang',
-        'C': 'Truk',
-        'D': 'Kendaraan Roda Tiga',
-        'E': 'EV',
-        'F': 'Kendaraan Diatas Air'
-      };
-
-      const labels = sortedData.map(item => labelMap[item.tipekendaraan]);
-      const values = sortedData.map(item => Number(item.count));
-
-      return { labels, values };
-    }
-
-    function calculatePercentages(values) {
-      const total = values.reduce((acc, value) => acc + value, 0);
-      return values.map(value => (value / total * 100).toFixed(2));
-    }
-
-    async function createCharts() {
-      const data = await fetchData();
-      const { labels, values } = transformData(data);
-      const percentages = calculatePercentages(values);
-
-      console.log('Labels:', labels);  // Log the labels
-      console.log('Values:', values);  // Log the values (after conversion)
-      console.log('Percentages:', percentages);  // Log the percentages
-
-      if (labels.length === 0 || values.length === 0) {
-        console.error('No data to display in the chart.');
-        return;
-      }
-
-      // Create bar chart
-
-      const chartData = {
-          labels: labels,
-          datasets: [{
-            label: 'My First Dataset',
-            data: values,
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(255, 205, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(153, 102, 255, 0.2)'
-            ],
-            borderColor: [
-              'rgb(255, 99, 132)',
-              'rgb(255, 159, 64)',
-              'rgb(255, 205, 86)',
-              'rgb(75, 192, 192)',
-              'rgb(54, 162, 235)',
-              'rgb(153, 102, 255)'
-            ],
-            borderWidth: 1
-          }]
-        };
-
-      const barCtx = document.getElementById('myBarChart').getContext('2d');
-      new Chart(barCtx, {
-
-        type: 'bar',
-        data: chartData,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      });
-
-      // Create pie charts
-      const pieChartIds = ['myPieChart1', 'myPieChart2'];
-      pieChartIds.forEach((id, index) => {
-        const pieCtx = document.getElementById(id).getContext('2d');
-        new Chart(pieCtx, {
-          type: 'pie',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'Distribution of Kendaraan Types',
-              data: percentages,
-              backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 205, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(153, 102, 255, 0.2)'
-              ],
-              borderColor: [
-                'rgb(255, 99, 132)',
-                'rgb(255, 159, 64)',
-                'rgb(255, 205, 86)',
-                'rgb(75, 192, 192)',
-                'rgb(54, 162, 235)',
-                'rgb(153, 102, 255)'
-              ],
-              borderWidth: 1
-            }]
-          },
-          options: {
-            plugins: {
-              legend: {
-                position: 'right',
-                labels: {
-                  boxWidth: 20,
-                  padding: 10
-                }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(tooltipItem) {
-                    return `${tooltipItem.label}: ${tooltipItem.raw}%`;
-                  }
-                }
-              }
-            }
-          }
-        });
-      });
-    }
-
-    createCharts();
-  </script>
 </body>
 </html>
